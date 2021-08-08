@@ -3,7 +3,7 @@ class PrototypesController < ApplicationController
   before_action :contributor_confirmation, only: [:edit, :update, :destroy]
   
   def index
-    @prototypes = Prototype.all
+    @prototypes = Prototype.includes(:user)
   end
 
   def new
@@ -21,7 +21,6 @@ class PrototypesController < ApplicationController
   end
 
   def edit
-    @prototype = Prototype.find(params[:id])
   end
 
   def show
@@ -51,6 +50,7 @@ class PrototypesController < ApplicationController
   end
 
   def contributor_confirmation
+    @prototype = Prototype.find(params[:id])
     redirect_to root_path unless current_user == @prototype.user
   end
 end
